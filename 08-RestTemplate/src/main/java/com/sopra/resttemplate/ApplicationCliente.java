@@ -30,6 +30,10 @@ public class ApplicationCliente {
 		System.out.println("Location: " 
 								+ respuestaAlta.getHeaders().getLocation());
 		
+		ResponseEntity<Usuario> usuario2 = restTemplate.getForEntity(respuestaAlta.getHeaders().getLocation(), Usuario.class);
+		
+		System.out.println("Usuario: " + usuario2.getBody());
+		
 	}
 }
 
