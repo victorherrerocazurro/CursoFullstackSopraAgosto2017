@@ -13,6 +13,7 @@ public interface UsuarioDao extends JpaRepository<Usuario, Integer> {
 	//Se traducea JPQL
 	List<Usuario> findByNombre(String nombre);
 	
+	//Consulta en formato JPQL
 	@Query("from Usuario u where u.nombre = :nombre")
 	List<Usuario> consultaPorNombre(@Param("nombre") String nombre);
 	
