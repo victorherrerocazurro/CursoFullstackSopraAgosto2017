@@ -39,7 +39,7 @@
 					<td align="center"><b>${expediente.clasificado}</b></td>
 					<td>
 						<a href="<c:url value='/expedientesx/mostrar/${expediente.id}'/>">mostrar</a>
-						<sec:authorize access="hasAnyRole(['ROLE_AGENTE_ESPECIAL','ROLE_DIRECTOR'])">
+						<sec:authorize access="hasAnyRole('ROLE_AGENTE_ESPECIAL','ROLE_DIRECTOR')">
 							<a href="<c:url value='/expedientesx/clasificar?id=${expediente.id}'/>">clasificar</a>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ROLE_DIRECTOR') or #expediente.investigador == authentication.name">

@@ -3,6 +3,7 @@ package expedientesx.modelo.negocio;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
@@ -23,7 +24,8 @@ public class GestorExpedientesImpl implements GestorExpendientes {
 		System.out.println("Actualizado Expediente: " + expediente);
 	}
 
-	@Secured("ROLE_AGENTE_ESPECIAL,ROLE_DIRECTOR")
+	//@Secured("ROLE_AGENTE_ESPECIAL,ROLE_DIRECTOR")
+	@PreAuthorize("hasAnyRole('ROLE_AGENTE_ESPECIAL','ROLE_DIRECTOR')")
 	public void clasificar(Expediente expediente) {
 		if (!expediente.isClasificado()) {
 			expediente.setClasificado(true);

@@ -16,6 +16,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
+//4-Activar seguridad a nivel de metodos
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true,jsr250Enabled=true)
 public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
 	/*@Override
@@ -34,7 +35,7 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
 
 	public UserDetailsService userDetailsService(){
 	    Properties usuarios = new Properties();
-	        usuarios.put("Fernando","$2a$10$SMPYtil7Hs2.cV7nrMjrM.dRAkuoLdYM8NdVrF.GeHfs/MrzcQ/zi,ROLE_AGENTE,enabled");
+	        usuarios.put("Fernando","$2a$10$SMPYtil7Hs2.cV7nrMjrM.dRAkuoLdYM8NdVrF.GeHfs/MrzcQ/zi,AGENTE,enabled");
 	        usuarios.put("Mulder"  ,"$2a$10$M2JRRHUHTfv4uMR4NWmCLebk1r9DyWSwCMZmuq4LKbImOkfhGFAIa,ROLE_AGENTE_ESPECIAL,enabled");
 	        usuarios.put("Scully"  ,"$2a$10$cbF5xp0grCOGcI6jZvPhA.asgmILATW1hNbM2MEqGJEFnRhhQd3ba,ROLE_AGENTE_ESPECIAL,enabled");
 	        usuarios.put("Skinner" ,"$2a$10$ZFtPIULMcxPe3r/5VunbVujMD7Lw8hkqAmJlxmK5Y1TK3L1bf8ULG,ROLE_DIRECTOR,enabled");
@@ -44,23 +45,34 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		//1-como se loguea el usuario
+		
+		//Popup que muestra el navegador
+		//http.httpBasic();
+		
+		//Formulario del ogin basado en paginas html que provee el servidor
+		http.formLogin()
+			.loginPage("/paginas/nuestro-login.jsp")
+			.failureUrl("/paginas/nuestro-login.jsp?login_error");
+		
+		//2-Gestion de cierre de session
+		http.logout()
+        	.logoutUrl("/logout")
+        	.invalidateHttpSession(true)
+        	.logoutSuccessUrl("/paginas/desconectado.jsp")
+        	.deleteCookies("JSESSIONID");
+		
+		//3-Definicion de ROLES necesarios para acceder a recursos HTTP
 		http.authorizeRequests()
 			.antMatchers("/paginas/*").permitAll()
 			.antMatchers("/css/*").permitAll()
 			.antMatchers("/imagenes/*").permitAll()
 			.antMatchers("/**").access("hasAnyRole('AGENTE_ESPECIAL','DIRECTOR')");
 
+		//------ Hasta aqui la configuracion basica Autenticacion/Autorizacion
+		
 		http.csrf().disable();
-
-        http.formLogin()
-        		.loginPage("/paginas/nuestro-login.jsp")
-        		.failureUrl("/paginas/nuestro-login.jsp?login_error");
-        
-        http.logout()
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .logoutSuccessUrl("/paginas/desconectado.jsp")
-                .deleteCookies("JSESSIONID");
         
         http.rememberMe()
                 .rememberMeParameter("remember-me-param")
