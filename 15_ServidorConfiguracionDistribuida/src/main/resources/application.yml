@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: serverconfig
+  cloud:
+    config:
+      server:
+        git:
+          uri: C:\Repo_Git_Config
+security:
+  user:
+    password: mipassword
+server:
+  port: 8082
+  

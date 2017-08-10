@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: holamundo
+  cloud:
+    config:
+      enabled: true
+      uri: http://user:mipassword@localhost:8082
+      failFast: true

@@ -1,0 +1,8 @@
+security:
+  user:
+    password: mipassword
+    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8084/eureka/

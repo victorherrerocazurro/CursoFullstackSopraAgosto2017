@@ -1,0 +1,5 @@
+FROM maven:latest
+COPY pom.xml /pom.xml
+COPY src /src
+WORKDIR /
+CMD ['mvn', 'test']
